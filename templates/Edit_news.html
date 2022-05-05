@@ -1,0 +1,15 @@
+{% extends 'flatpages/default.html' %}
+
+{% block title %}
+New list
+{% endblock title %}
+
+{% block content %}
+
+<form method="POST">
+    {% csrf_token %}
+    {{ form }}
+    <input type="submit" value="Изменить статью">
+</form>
+
+{% endblock content %}

@@ -1,0 +1,40 @@
+{% extends 'flatpages/default.html' %}
+
+{% load news_filters %}
+
+{% block title %}
+Delete news
+{% endblock title %}
+
+{% block content %}
+
+<h2> Вы действительно хотите удалить данную статью? </h2>
+
+<hr>
+
+       <table>
+           <tr>
+               <td>Название</td>
+               <td>Текст</td>
+               <td>Дата создания</td>
+               <td>Автор</td>
+           </tr>
+
+           <tr>
+
+               <td>{{ Article.name|censor }}</td>
+               <td>{{ Article.ARtext|truncatewords:20|censor }}</td>
+               <td>{{ Article.data|date:'d M Y' }}</td>
+               <td>{{ Article.author}}</td>
+           </tr>
+
+       </table>
+
+
+<form method="POST">
+    {% csrf_token %}
+    {{ form }}
+    <input type="submit" value="Подтвердить">
+</form>
+
+{% endblock content %}

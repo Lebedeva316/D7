@@ -9,7 +9,25 @@ Article
 
 {% block content %}
 <h1>{{ Article.name|censor}}</h1>
+
+<h3> Категория:</h3>
+
+
+<h3> {{ Article.category }} </h3>
+
+
+    <button> <a href="{% url 'subscribe' Article.category.id %}">Подписаться!</a></button>
+
+    <button> <a href="{% url 'unsubscribe' Article.category.id %}">Отписаться!</a></button>
+
+
+
+
+
 <h3> Дата создания: {{ Article.data|date:'d M Y' }}</h3>
 <h3>{{ Article.ARtext|censor}}</h3>
+
+
+
 {% endblock content %}
 

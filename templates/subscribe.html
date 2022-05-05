@@ -1,0 +1,26 @@
+{% extends "base.html" %}
+
+{% block content %}
+
+<p> Привет, {{request.user.username }} </p>
+
+<form method="POST">
+    {% csrf_token %}
+
+    <label for "email"> Email </label>
+    <input name="email" type="email" value="{{ request.user.email }}">
+
+    <select multiple="multiple" name="category" id="category" size="4">
+
+        {% for category in categories %}
+        <option value="{{ category.id }}">
+            {{ category }}
+        </option>
+        {% endfor %}
+
+    </select>
+    <input type="submit" value="Подписаться">
+
+</form>
+
+{% endblock %}

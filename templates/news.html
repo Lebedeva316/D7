@@ -9,7 +9,9 @@ Articles
 {% block content %}
 <h1>Все статьи</h1>
 <h3>{{ time_now|date:'M d Y' }}</h3>
-<h3> Всего статей: {{ Articles|length }}</h3>
+<h3> Всего статей на странице: {{ Articles|length }}</h3>
+
+
 <hr>
    {% if Articles %}
        <table>
@@ -17,21 +19,54 @@ Articles
                <td>Название</td>
                <td>Текст</td>
                <td>Дата создания</td>
+               <td>Автор</td>
+               <td>Категория</td>
            </tr>
 
 
            {% for Article in Articles %}
            <tr>
 
-               <td>{{ Article.name|censor }}</td>
+               <td>
+                   <a href="{% url 'news_detail' Article.id %}">{{ Article.name|censor }}</a>
+                   <a href="{% url 'news_edit' Article.id %}"><u>Редактировать</u></a>
+                   <a href="{% url 'news_delete' Article.id %}"><u> Удалить </u></a>
+               </td>
                <td>{{ Article.ARtext|truncatewords:20|censor }}</td>
                <td>{{ Article.data|date:'d M Y' }}</td>
+               <td>{{ Article.author}}</td>
+               <td>{{ Article.category}}</td>
            </tr>
            {% endfor %}
 
        </table>
+
    {% else %}
        <h2>Нет статей</h2>
 
    {% endif %}
+
+<a href="{% url 'news_create' %}">Добавить новую статью </a> <br>
+
+{% if is_paginated %}
+
+{% if page_obj.has_previous %}
+        <a href="?page=1">First</a>
+        <a href="?page={{ page_obj.previous_page_number }}"><<<</a>
+    {% endif %}
+
+    {% for num in page_obj.paginator.page_range %}
+        {% if page_obj.number == num %}
+            <a>{{ num }}</a>
+        {% elif num > page_obj.number|add:'-3' and num < page_obj.number|add:'3' %}
+            <a href="?page={{ num }}">{{ num }}</a>
+        {% endif %}
+    {% endfor %}
+
+    {% if page_obj.has_next %}
+        <a href="?page={{ page_obj.next_page_number }}">>>></a>
+        <a href="?page={{ page_obj.paginator.num_pages }}">Last</a>
+    {% endif %}
+
+{% endif %}
 {% endblock content %}
